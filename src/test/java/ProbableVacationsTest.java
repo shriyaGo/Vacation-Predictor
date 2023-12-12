@@ -1,18 +1,19 @@
 package test.java;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.testing.junit.testparameterinjector.TestParameter;
 import com.google.testing.junit.testparameterinjector.TestParameterInjector;
 import java.time.format.DateTimeParseException;
-import java.util.List;
 import main.java.ProbableVacations;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-/** Tests for {@link ProbableVacations}. */
+/**
+ * Tests for {@link ProbableVacations}.
+ */
 @RunWith(TestParameterInjector.class)
 public class ProbableVacationsTest {
 
@@ -191,7 +192,7 @@ public class ProbableVacationsTest {
   public void getProbableLeaveDates_returnsProbableLeaveDates(
       @TestParameter ProbableLeavesValidCase testCase) {
     // Act.
-    List<String> result =
+    ImmutableList<String> result =
         ProbableVacations.getProbableLeaveDates(testCase.holidays, testCase.noOfLeaveDays);
 
     // Assert.

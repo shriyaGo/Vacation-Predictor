@@ -1,9 +1,11 @@
 package main.java;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.time.DayOfWeek.SATURDAY;
 import static java.time.DayOfWeek.SUNDAY;
 import static java.time.DayOfWeek.WEDNESDAY;
 
+import com.google.common.collect.ImmutableList;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -32,12 +34,11 @@ public final class ProbableVacations {
    * @param holidayDatesInYear List of holidays in a year.
    * @param noOfLeaveDays The number of days a person can take leave.
    * @return String list containing the probable vacation dates.
-   * @throws IllegalArgumentException if {@code noOfLeaveDays} is greater than 3 or less than
-   *     0.
+   * @throws IllegalArgumentException if {@code noOfLeaveDays} is greater than 3 or less than 0.
    * @throws DateTimeParseException if {@code holidayDatesInYear} has dates not in the format
    *     "MM/dd/yyyy".
    */
-  public static List<String> getProbableLeaveDates(
+  public static ImmutableList<String> getProbableLeaveDates(
       List<String> holidayDatesInYear, int noOfLeaveDays) {
     if (noOfLeaveDays > 3 || noOfLeaveDays < 0) {
       throw new IllegalArgumentException("Number of leave days should be 1, 2, or 3.");
@@ -45,10 +46,10 @@ public final class ProbableVacations {
 
     Set<LocalDate> result = new HashSet<>();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-    List<LocalDate> holidayDates =
+    ImmutableList<LocalDate> holidayDates =
         holidayDatesInYear.stream()
             .map(holiday -> LocalDate.parse(holiday, formatter))
-            .collect(Collectors.toUnmodifiableList());
+            .collect(toImmutableList());
     Map<LocalDate, DayOfWeek> resultMap =
         holidayDates.stream()
             .collect(Collectors.toMap(Function.identity(), LocalDate::getDayOfWeek));
@@ -198,9 +199,8 @@ public final class ProbableVacations {
     return result.stream()
         .sorted()
         .map(holidayDate -> holidayDate.format(formatter))
-        .collect(Collectors.toUnmodifiableList());
+        .collect(toImmutableList());
   }
 
-  private ProbableVacations() {
-  }
+  private ProbableVacations() {}
 }
